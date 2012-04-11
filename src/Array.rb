@@ -11,19 +11,19 @@ b = [1,2,3,4]
 
 c = b.map { |e| e*e }
 
-print "\n" 
+puts ""
 c.each do |e|
   print e
   print " "
 end
-print "\n" 
+puts ""
 
 d = c.select {|x| x > 10}
 d.each do |e|
   print e
   print " "
 end
-print "\n" 
+puts "" 
 
 print "array inject demo"
 sum = 0
