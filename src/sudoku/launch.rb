@@ -1,4 +1,5 @@
 load 'sudoku.rb'
 
-instance = Sudoku.new
+instance = sudoku.new
+instance.setvalues
 instance.print_result
