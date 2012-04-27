@@ -1,4 +1,5 @@
-require
+require "sudoku.rb"
 
 instance = sudoku.new
-instance.
+instance.setvalues
+instance.print_result
