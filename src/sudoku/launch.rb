@@ -1,4 +1,4 @@
-require
+load 'sudoku.rb'
 
-instance = sudoku.new
-instance.
+instance = Sudoku.new
+instance.print_result
