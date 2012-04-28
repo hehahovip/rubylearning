@@ -30,3 +30,7 @@ sum = 0
 sum = a.inject {|sum, x| sum + x} 
 
 print sum
+
+numberarray = [1,2,3]
+puts numberarray[0]
+
