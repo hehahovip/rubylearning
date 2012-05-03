@@ -1,4 +1,4 @@
-load 'sudoku.rb'
+require 'sudoku'
 
 instance = Sudoku.new
 instance.setvalues
