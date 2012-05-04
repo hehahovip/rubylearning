@@ -28,26 +28,41 @@ class Sudoku
 
   def computing
     self.initcheck
-
-    Length.times do |x|
-      Length.times do |y|
-        if !@arrayflag[x][y]
-
+    jumpflag = false
+    while x < Length do
+        while y < Length do
+          
+          if not @arrayflag[x][y] == 0
           then
-          @chkflag = matchingcell(x, y)
-          if @chkflag
-            then
-              self.forwardstep(x, y, @array[x][y])
-              next
-          else
-            self.backstep
+            if jumpflag
+              then
+              @chkflag = matchingcell(x, y, @tempvalue + 1)
+            else
+              @chkflag = matchingcell(x, y)
+            end
+            if @chkflag
+              then
+                self.forwardstep(x, y, @array[x][y])
+                next
+            else
+              #setvalue to zero
+              setvalue(x, y, 0)
+              @backstepinfo = self.backstep
+              jumpflag = true
+              x = @backstepinfo.index.index_x
+              y = @backstepinfo.index.index_y
+            end
           end
-        
+          if not jumpflag
+            then
+            y = y + 1
+          else
+            @tempvalue = @backstepinfo.value
+          end
         end
-
-      end
+        x = x + 1
     end
-    
+        
     # finish all loops, check flag
     if @chkflag
       then
@@ -55,41 +70,40 @@ class Sudoku
       self.print_result
     else
       puts "No result!!!"
+      self.print_result
     end
     
   end
 
-  def matchingcell(x, y)
-    if !@arrayflag[x][y]
-      then
-      Length.times do |value|
+  def matchingcell(x, y, min = 1)
+      while min < Length + 1       
         self.setvalue(x, y, value)
         chkflag = checkrow(x)
         chkflag = chkflag and checkcolume(y)
         chkflag = chkflag and chkcube(Index.new(x,y).whichcube)
+        min  = min + 1
         if not chkflag
         then next
         else
         break
         end
       end
-    end
   end
 
-  def setvalue(index_x, index_y, value)
-    @array[index_x][index_y] = value
+  def setvalue(x, y, value)
+    @array[x][y] = value
   end
 
   def setvalues
     Length.times do |x|
       Length.times do |y|
-        @array[x][y] = y+1
+       setvalue(x, y, 0)
       end
     end
   end
 
-  def forwardstep(index_x, index_y, value)
-    @route.push(StepInfo.new(Index.new(index_x, index_y),value))
+  def forwardstep(x, y, value)
+    @route.push(StepInfo.new(Index.new(x, y),value))
   end
 
   def backstep
@@ -100,7 +114,7 @@ class Sudoku
       backstepinfo = @route.pop
 
       #set the value to 0 in array
-      @array[backstepinfo.index.index_x][backstepindo.index.index_y] = backstepinfo.value
+      setvalue(backstepinfo.index.index_x, backstepinfo.index.index_y, 0)
     return backstepinfo
     end
   end
@@ -121,10 +135,10 @@ class Sudoku
     return true
   end
 
-  def checkrow (i)
+  def checkrow (rownumber)
     rowset = Set.new
     Length.times do |x|
-      value = @array[rownubmer][x]
+      value = @array[rownumber][x]
       if rowset.include?(value)
       then
       return false
