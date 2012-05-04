@@ -45,8 +45,6 @@ class Sudoku
                 self.forwardstep(x, y, @array[x][y])
                 next
             else
-              #setvalue to zero
-              setvalue(x, y, 0)
               @backstepinfo = self.backstep
               jumpflag = true
               x = @backstepinfo.index.index_x
